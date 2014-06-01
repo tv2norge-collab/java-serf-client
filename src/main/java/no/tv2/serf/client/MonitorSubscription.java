@@ -23,7 +23,7 @@ public class MonitorSubscription extends ResponseBase {
     }
     
     public Log take() throws SerfCommunicationException {
-        Response response = handler.take();
+        RawSerfResponse response = handler.take();
         return new Log(response.getSeq(), response.getError(), response.getBody());
     }
 }

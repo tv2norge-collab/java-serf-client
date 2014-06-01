@@ -69,7 +69,7 @@ class ListenerTask implements Callable<Boolean> {
         } else {
             dstMap = null;
         }
-        Response response = new Response(seq, error, dstMap);
+        RawSerfResponse response = new RawSerfResponse(seq, error, dstMap);
         handler.addResponse(response);
     }
 

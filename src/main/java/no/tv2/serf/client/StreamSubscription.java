@@ -26,11 +26,11 @@ public class StreamSubscription extends ResponseBase {
     }
 
     public Event take() throws SerfCommunicationException {
-        Response response = handler.take();
+        RawSerfResponse response = handler.take();
         return response == null ? null : parseResponse(response);
     }
     
-    private Event parseResponse(Response response) throws SerfCommunicationException {
+    private Event parseResponse(RawSerfResponse response) throws SerfCommunicationException {
 
         Map<String, Value> map = (Map<String, Value>) response.getBody();
 

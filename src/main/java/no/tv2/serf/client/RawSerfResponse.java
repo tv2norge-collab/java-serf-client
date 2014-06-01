@@ -16,17 +16,17 @@ import org.msgpack.type.Value;
  *
  * @author Arne M. Størksen <arne.storksen@tv2.no>
  */
-class Response {
+class RawSerfResponse {
     
     private final long seq;
     private final String error;
     private Map<String, Value> body;
     
-    public Response(long seq, String error) {
+    public RawSerfResponse(long seq, String error) {
         this.seq = seq;
         this.error = error;
     }
-    public Response(long seq, String error, Map<String, Value> body) {
+    public RawSerfResponse(long seq, String error, Map<String, Value> body) {
         this(seq, error);
         this.body = body;
     }

@@ -23,7 +23,7 @@ public class QuerySubscription extends ResponseBase {
     }
 
     public QueryResponse take() throws SerfCommunicationException {
-        Response response = handler.take();
+        RawSerfResponse response = handler.take();
         return response == null ? null : new QueryResponse(response.getSeq(), response.getError(), response.getBody());
     }
 }

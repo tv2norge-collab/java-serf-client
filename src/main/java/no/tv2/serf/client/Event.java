@@ -13,7 +13,7 @@ package no.tv2.serf.client;
  *
  * @author Arne M. Størksen <arne.storksen@tv2.no>
  */
-public class Event extends ResponseBase {
+public abstract class Event extends ResponseBase {
     
     private final EventType eventType;
 

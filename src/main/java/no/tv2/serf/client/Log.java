@@ -17,7 +17,7 @@ import org.msgpack.type.Value;
  *
  * @author Arne M. Størksen <arne.storksen@tv2.no>
  */
-public class Log extends Response {
+public class Log extends RawSerfResponse {
     
     private String text;
     

@@ -25,7 +25,7 @@ class ResponseHandler {
 
     private final long seq;
     private final boolean firstResponseEmpty;
-    private final BlockingQueue<Response> responseQueue = new LinkedBlockingQueue<>(1000);
+    private final BlockingQueue<RawSerfResponse> responseQueue = new LinkedBlockingQueue<>(1000);
     private boolean firstResponse = true;
     private boolean stopped = false;
     
@@ -34,12 +34,12 @@ class ResponseHandler {
         this.firstResponseEmpty = firstResponseEmpty;
     }
 
-    public Response take() throws SerfCommunicationException {
+    public RawSerfResponse take() throws SerfCommunicationException {
         if (stopped) {
             throw new SerfCommunicationException("Response handler has been stopped");
         }
         try {
-            Response response = responseQueue.take();
+            RawSerfResponse response = responseQueue.take();
             return response.getSeq() == SHUTDOWN_SEQ ? null : response;
         } catch (InterruptedException ex) {
             logger.error("ResponseHandler interrupted.", ex);
@@ -48,15 +48,20 @@ class ResponseHandler {
     }
 
     // Will be called from a single threaded executor. 
-    public void addResponse(Response response) {
-        firstResponse = false;
-        if (!stopped) {
-            boolean addedToQueue = responseQueue.offer(response);
-            if (!addedToQueue) {
-                logger.error("ResponseQueue is full. Dropping response.");
-            } 
+    public void addResponse(RawSerfResponse response) throws SerfCommunicationException {
+        if(seq != response.getSeq()) {
+            throw new SerfCommunicationException("Seq of response not matching seq of this handler");
         }
+        if(stopped) {
+            throw new SerfCommunicationException("ResponseHandler has been stopped and is not exepting new responses.");
+        }
+        firstResponse = false;
+        boolean addedToQueue = responseQueue.offer(response);
+        if (!addedToQueue) {
+            throw new SerfCommunicationException("ResponseQueue is full");
+        }    
     }
+    
 
     public long getSeq() {
         return seq;
@@ -70,7 +75,7 @@ class ResponseHandler {
     public void stop() {
         // Return from a blocking queue, using "Poison Pill Shutdown"
         stopped = true;
-        responseQueue.add(new Response(SHUTDOWN_SEQ, "Poison Pill Shutdown"));
+        responseQueue.add(new RawSerfResponse(SHUTDOWN_SEQ, "Poison Pill Shutdown"));
     }
 
 }

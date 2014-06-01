@@ -42,7 +42,7 @@ public class Client {
     }
     
     public EmptyResponse handshake() throws SerfCommunicationException {
-        Response response = executeCommandAndWaitForSingleResponse("handshake", ImmutableMap.<String, Object>builder()
+        RawSerfResponse response = executeCommandAndWaitForSingleResponse("handshake", ImmutableMap.<String, Object>builder()
                 .put("Version", 1).build(), true);
         return new EmptyResponse(response.getSeq(), response.getError());
     }
@@ -53,12 +53,12 @@ public class Client {
     }
 
     public MembersResponse members() throws SerfCommunicationException {
-        Response response = executeCommandAndWaitForSingleResponse("members", ImmutableMap.<String, Object>of(), false);
+        RawSerfResponse response = executeCommandAndWaitForSingleResponse("members", null, false);
         return new MembersResponse(response.getSeq(), response.getError(), response.getBody());
     }
 
     public MembersResponse membersFiltered(Map<String, String> tags, String status, String name) throws SerfCommunicationException {
-        Response response = executeCommandAndWaitForSingleResponse("members-filtered", ImmutableMap.<String, Object>builder()
+        RawSerfResponse response = executeCommandAndWaitForSingleResponse("members-filtered", ImmutableMap.<String, Object>builder()
                 .put("Tags", tags)
                 .put("Status", status)
                 .put("Name", name).build(), false);
@@ -66,14 +66,14 @@ public class Client {
     }
 
     public JoinResponse join(List<String> servers, boolean replay) throws SerfCommunicationException {
-        Response response = executeCommandAndWaitForSingleResponse("join", ImmutableMap.<String, Object>builder()
+        RawSerfResponse response = executeCommandAndWaitForSingleResponse("join", ImmutableMap.<String, Object>builder()
                 .put("Existing", servers)
                 .put("Replay", replay).build(), false);
         return new JoinResponse(response.getSeq(), response.getError(), response.getBody());
     }
 
     public EmptyResponse event(String name, String payload, boolean coalesce) throws SerfCommunicationException {
-        Response response = executeCommandAndWaitForSingleResponse("event", ImmutableMap.<String, Object>builder()
+        RawSerfResponse response = executeCommandAndWaitForSingleResponse("event", ImmutableMap.<String, Object>builder()
                 .put("Name", name)
                 .put("Payload", payload)
                 .put("Coalesce", coalesce).build(), true);
@@ -81,14 +81,14 @@ public class Client {
     }
 
     public EmptyResponse forceLeave(String node) throws SerfCommunicationException {
-        Response response = executeCommandAndWaitForSingleResponse("force-leave", ImmutableMap.<String, Object>builder()
+        RawSerfResponse response = executeCommandAndWaitForSingleResponse("force-leave", ImmutableMap.<String, Object>builder()
                 .put("Node", node).build(), true);
         return new EmptyResponse(response.getSeq(), response.getError());
 
     }
 
     public EmptyResponse tags(Map<String, String> tags, List<String> deleteTags) throws SerfCommunicationException {
-        Response response = executeCommandAndWaitForSingleResponse("tags", ImmutableMap.<String, Object>builder()
+        RawSerfResponse response = executeCommandAndWaitForSingleResponse("tags", ImmutableMap.<String, Object>builder()
                 .put("Tags", tags)
                 .put("DeleteTags", deleteTags).build(), true);
         return new EmptyResponse(response.getSeq(), response.getError());
@@ -102,8 +102,9 @@ public class Client {
     }
     
     public EmptyResponse stop(long seq) throws SerfCommunicationException {
-        Response response = executeCommandAndWaitForSingleResponse("stop", ImmutableMap.<String, Object>builder()
+        RawSerfResponse response = executeCommandAndWaitForSingleResponse("stop", ImmutableMap.<String, Object>builder()
                 .put("Stop", seq).build(), true);
+
         if(handlers.containsKey(seq)) {
             ResponseHandler handler = handlers.remove(seq);
             handler.stop();
@@ -131,7 +132,7 @@ public class Client {
     }
 
     public EmptyResponse respond(int id, String payload) throws SerfCommunicationException {
-        Response response = executeCommandAndWaitForSingleResponse("respond", ImmutableMap.<String, Object>builder()
+        RawSerfResponse response = executeCommandAndWaitForSingleResponse("respond", ImmutableMap.<String, Object>builder()
                 .put("ID", id)
                 .put("Payload", payload).build(), true);
         return new EmptyResponse(response.getSeq(), response.getError());
@@ -164,9 +165,9 @@ public class Client {
         return handler;
     }
 
-    private Response waitForSingleResponseAndRemoveHandler(ResponseHandler handler) throws SerfCommunicationException {
+    private RawSerfResponse waitForSingleResponseAndRemoveHandler(ResponseHandler handler) throws SerfCommunicationException {
 
-        Response response = handler.take();
+        RawSerfResponse response = handler.take();
         handlers.remove(handler.getSeq());
         return response;
     }
@@ -182,23 +183,23 @@ public class Client {
         return handler;
     }
 
-    private void handleError(Response response) throws SerfCommunicationException {
+    private void handleError(RawSerfResponse response) throws SerfCommunicationException {
 
         if (response.getError() != null) {
             throw new SerfCommunicationException("Got error from Serf Agent: " + response.getError());
         }
     }
 
-    private Response executeCommandAndWaitForSingleResponse(String command, Map<String, Object> map, boolean isFirstResponseEmpty) throws SerfCommunicationException {
+    private RawSerfResponse executeCommandAndWaitForSingleResponse(String command, Map<String, Object> map, boolean isFirstResponseEmpty) throws SerfCommunicationException {
         ResponseHandler handler = executeCommand(command, map, isFirstResponseEmpty);
-        Response response = waitForSingleResponseAndRemoveHandler(handler);
+        RawSerfResponse response = waitForSingleResponseAndRemoveHandler(handler);
         handleError(response);
         return response;
     }
     
     private ResponseHandler executeCommandAndReturnHandler(String command, Map<String, Object> map) throws SerfCommunicationException {
         ResponseHandler handler = executeCommand(command, map, true);
-        Response response = handler.take();
+        RawSerfResponse response = handler.take();
         handleError(response);
         return handler;
     }
