@@ -8,6 +8,32 @@
 
     <packaging>jar</packaging>
 
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>A java library that implements the serf RPC protocol as described on the serf project site.</description>
+    <url>https://github.com/tv2norge/java-serf-client</url>
+
+    <licenses>
+        <license>
+            <name>Mozilla Public License, version 2.0</name>
+            <url>https://www.mozilla.org/en-US/MPL/2.0/</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Arne M. Størksen</name>
+            <email>arne.storksen@tv2.no</email>
+            <organization>TV 2</organization>
+            <organizationUrl>http://www.tv2.no</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:tv2norge/java-serf-client.git</connection>
+        <developerConnection>scm:git:git@github.com:tv2norge/java-serf-client.git</developerConnection>
+        <url>git@github.com:tv2norge/java-serf-client.git</url>
+    </scm>
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
