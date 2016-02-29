@@ -13,10 +13,6 @@ import java.net.InetAddress;
 import java.util.Collections;
 import java.util.Map;
 
-/**
- *
- * @author Arne M. Størksen <arne.storksen@tv2.no>
- */
 public class Member {
     
     private final String name;

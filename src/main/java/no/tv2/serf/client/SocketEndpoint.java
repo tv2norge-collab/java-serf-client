@@ -24,10 +24,6 @@ import org.msgpack.unpacker.Unpacker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author Arne M. Størksen <arne.storksen@tv2.no>
- */
 public class SocketEndpoint implements SerfEndpoint {
 
     private static final Logger logger = LoggerFactory.getLogger(SocketEndpoint.class);

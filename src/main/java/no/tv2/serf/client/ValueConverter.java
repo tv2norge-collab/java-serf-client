@@ -13,10 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.msgpack.type.Value;
 
-/**
- *
- * @author Arne M. Størksen <arne.storksen@tv2.no>
- */
 class ValueConverter {
 
     public void verifyArray(String name, Map.Entry<String, Value> entry) {

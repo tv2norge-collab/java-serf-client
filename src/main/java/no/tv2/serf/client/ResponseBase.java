@@ -9,10 +9,6 @@
 
 package no.tv2.serf.client;
 
-/**
- *
- * @author Arne M. Størksen <arne.storksen@tv2.no>
- */
 public abstract class ResponseBase {
 
     private static final ValueConverter VALUE_CONVERTER = new ValueConverter();

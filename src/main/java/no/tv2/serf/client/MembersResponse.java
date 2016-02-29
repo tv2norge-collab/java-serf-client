@@ -13,10 +13,6 @@ import java.util.List;
 import java.util.Map;
 import org.msgpack.type.Value;
 
-/**
- *
- * @author Arne M. Størksen <arne.storksen@tv2.no>
- */
 public class MembersResponse extends ResponseBase {
 
     private final static MembersParser membersParser = new MembersParser();

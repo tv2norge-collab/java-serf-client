@@ -13,10 +13,6 @@ import java.util.Map;
 import static no.tv2.serf.client.ResponseBase.valueConverter;
 import org.msgpack.type.Value;
 
-/**
- *
- * @author Arne M. Størksen <arne.storksen@tv2.no>
- */
 public class Log extends RawSerfResponse {
     
     private String text;

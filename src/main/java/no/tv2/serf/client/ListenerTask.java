@@ -15,10 +15,6 @@ import org.msgpack.type.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author Arne M. Størksen <arne.storksen@tv2.no>
- */
 class ListenerTask implements Callable<Boolean> {
 
     private final static Logger logger = LoggerFactory.getLogger(ListenerTask.class);

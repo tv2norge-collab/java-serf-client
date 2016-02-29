@@ -12,10 +12,6 @@ package no.tv2.serf.client;
 import java.util.Map;
 import org.msgpack.type.Value;
 
-/**
- *
- * @author Arne M. Størksen <arne.storksen@tv2.no>
- */
 public class StreamSubscription extends ResponseBase {
 
     private final ResponseHandler handler;

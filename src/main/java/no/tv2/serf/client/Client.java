@@ -21,8 +21,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * A java implementation of the Serf RPC protocol.
  * http://www.serfdom.io/docs/agent/rpc.html
  * 
- * 
- * @author Arne M. Størksen <arne.storksen@tv2.no>
+ *
  */
 public class Client {
 

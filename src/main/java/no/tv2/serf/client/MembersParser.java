@@ -18,10 +18,6 @@ import java.util.Map;
 import static no.tv2.serf.client.ResponseBase.valueConverter;
 import org.msgpack.type.Value;
 
-/**
- *
- * @author Arne M. Størksen <arne.storksen@tv2.no>
- */
 class MembersParser {
 
     public List<Member> parse(Map<String, Value> body) {

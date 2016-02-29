@@ -12,10 +12,6 @@ package no.tv2.serf.client;
 import java.util.Map;
 import org.msgpack.type.Value;
 
-/**
- *
- * @author Arne M. Størksen <arne.storksen@tv2.no>
- */
 class RawSerfResponse {
     
     private final long seq;
