@@ -57,6 +57,20 @@ class ValueConverter {
             map.put(entry.getKey().asRawValue().getString(), entry.getValue().asRawValue().getString());
         }
         return map;
-    } 
+    }
+
+    public Map<String, Value> getValueMap(Value value) {
+        if(!value.isMapValue()) {
+            throw new IllegalArgumentException("Incoming value is not a Map");
+        }
+        Map<String, Value> map = new HashMap<>();
+        for(Map.Entry<Value, Value> entry : value.asMapValue().entrySet()) {
+            if(!entry.getKey().isRawValue()) {
+                throw new IllegalArgumentException("Map key is not a String");
+            }
+            map.put(entry.getKey().asRawValue().getString(), entry.getValue());
+        }
+        return map;
+    }
 
 }
