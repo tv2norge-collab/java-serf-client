@@ -196,5 +196,16 @@ public class SerfClientIT {
         assertEquals(QueryResponseType.done, response3.getType());
         
     }
+
+    @Test
+    public void testStats() throws SerfCommunicationException {
+        logger.info("testStats");
+
+        Map<String, String> expected = ImmutableMap.<String, String>of("teststat", "valstat");
+        client1.tags(expected, ImmutableList.<String>of());
+        StatsResponse statsResponse = client1.stats();
+        assertTrue(Integer.valueOf(statsResponse.getStats().getSerf().getMembers()) > 0);
+        assertTrue(Maps.difference(expected, statsResponse.getStats().getTags()).areEqual());
+    }
     
 }

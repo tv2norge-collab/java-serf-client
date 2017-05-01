@@ -10,7 +10,7 @@ public class Stats {
     private Map<String, String> tags;
 
 
-    public class Agent {
+    class Agent {
         private String name;
 
         public String getName() {
@@ -22,7 +22,7 @@ public class Stats {
         }
     }
 
-    public class Runtime {
+    class Runtime {
         private String os;
         private String arch;
         private String version;
@@ -79,7 +79,7 @@ public class Stats {
         }
     }
 
-    public class Serf {
+    class Serf {
         private String failed;
         private String left;
         private String eventTime;
