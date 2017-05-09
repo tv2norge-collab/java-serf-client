@@ -64,6 +64,11 @@ public class Client {
         return new MembersResponse(response.getSeq(), response.getError(), response.getBody());
     }
 
+    public StatsResponse stats() throws SerfCommunicationException{
+        RawSerfResponse response = executeCommandAndWaitForSingleResponse("stats", null, false);
+        return new StatsResponse(response.getSeq(), response.getError(), response.getBody());
+    }
+
     public JoinResponse join(List<String> servers, boolean replay) throws SerfCommunicationException {
         RawSerfResponse response = executeCommandAndWaitForSingleResponse("join", ImmutableMap.<String, Object>builder()
                 .put("Existing", servers)
