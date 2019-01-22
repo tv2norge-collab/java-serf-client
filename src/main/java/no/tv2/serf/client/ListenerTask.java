@@ -46,13 +46,18 @@ class ListenerTask implements Callable<Boolean> {
             }
         } catch (SerfCommunicationException ex) {
             if (closed) {
-                //Closing the socket will throw exception. This prevents a stacktrace when it is closed properly.
+                // Closing the serfEndPoint will cause an exception because we are still in waiting for
+                // the ReadNextMap call to return.  But if closed = true, it was intentional
                 logger.debug("Socket closed");
             } else {
+                // If close is false the socket got closed unexpectedly. Notify the handlers to stop
+                for (ResponseHandler handler : handlers.values()) {
+                    handler.stop();
+                }
                 throw new SerfCommunicationException(ex);
             }
         }
-        //Return true means returns without exceptions
+        //Return true means returns without exceptions, BUT nobody cares about it.
         return true;
     }
 
